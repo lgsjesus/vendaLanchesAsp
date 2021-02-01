@@ -1,10 +1,10 @@
-﻿//using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vendaLanchesAsp.Migrations
 {
-    public partial class MigracaoPopularDB //: Migration
+    public partial class MigracaoPopularDB : Migration
     {
-        /*
+        
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("INSERT INTO Categorias(CategoriaNome,Descricao) VALUES('Normal','Lanche feito com ingredientes normais')");
@@ -21,6 +21,6 @@ namespace vendaLanchesAsp.Migrations
             migrationBuilder.Sql("DELETE FROM Categorias");
             migrationBuilder.Sql("DELETE FROM Lanches");
         }
-        */
+        
     }
 }

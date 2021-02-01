@@ -34,9 +34,17 @@ namespace vendaLanchesAsp
              *    var connection = Configuration["MySQLConnection:MySQLConnectionString"];
             services.AddDbContext<MySqlContext>(options => options.UseMySql(connection));
              */
-            
-            services.AddDbContext<AppDbContext>(options =>
-            options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+
+            if (Configuration["BancoDados"].Equals("SqlServer"))
+            {
+                services.AddDbContext<AppDbContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
+            }
+            else
+            {
+                services.AddDbContext<AppDbContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            }
 
             //Transient o objeto vai ser criado toda x que for requisitado
             services.AddTransient<ICategorias, CategoriaRepository>();

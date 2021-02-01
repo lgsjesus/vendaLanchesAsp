@@ -7,8 +7,9 @@
     <h3>@Model.Categoria</h3>
 </div>
 
-@foreach (var lanche in Model.Lanches)
-{
-    @*@Html.Partial("_LancheView", lanche);*@
-    <partial name="_LancheView" for="@lanche"/>
-}
+<div class="d-sm-flex flex-sm-column d-md-flex flex-md-row flex-md-wrap">
+    @foreach (var lanche in Model.Lanches)
+    {@*@Html.Partial("_LancheView", lanche);*@
+        <partial name="_LancheView" for="@lanche" />
+    }
+</div>
