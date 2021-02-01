@@ -5,22 +5,30 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using vendaLanchesAsp.Models;
+using vendaLanchesAsp.Repositories;
+using vendaLanchesAsp.ViewModels;
 
 namespace vendaLanchesAsp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ILanches _lanche;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ILanches lanches)
         {
             _logger = logger;
+            _lanche = lanches;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var preferido = _lanche.LanchesPreferidos;
+            var lanchePreferido = new HomeViewModel
+            {
+                LanchesPreferidos = preferido
+            };
+            return View(lanchePreferido);
         }
 
         public IActionResult Privacy()
@@ -28,10 +36,5 @@ namespace vendaLanchesAsp.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

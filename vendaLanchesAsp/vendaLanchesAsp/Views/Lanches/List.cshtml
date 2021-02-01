@@ -1,0 +1,14 @@
+﻿@model LancheViewModel
+
+<div>
+    <h1>Todos os Lanches</h1>
+</div>
+<div>
+    <h3>@Model.Categoria</h3>
+</div>
+
+@foreach (var lanche in Model.Lanches)
+{
+    @*@Html.Partial("_LancheView", lanche);*@
+    <partial name="_LancheView" for="@lanche"/>
+}
