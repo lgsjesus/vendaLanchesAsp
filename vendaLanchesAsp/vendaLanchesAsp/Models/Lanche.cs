@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace vendaLanchesAsp.Models
 {
-    //[Table("lanche")]
+    [Table("lanche")]
     public class Lanche
     {
         public int LancheId { get; set; }

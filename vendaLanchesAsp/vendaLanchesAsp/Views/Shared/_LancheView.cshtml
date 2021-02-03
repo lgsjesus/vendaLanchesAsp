@@ -6,8 +6,12 @@
     <img class="card-img-top" src="@Model.ImagemUrl"  alt="Lanche" />
     <div class="card-body mb-5 mt-5">
         <h3 class="text-right">@Model.Preco.ToString("c")</h3>
-        <h3 class="card-title">@Model.Nome</h3>
+        <h3 class="card-title">
+            <a asp-controller="Lanche" asp-action="Details" asp-route-lancheId="@Model.LancheId">
+                @Model.Nome
+            </a>
+        </h3>
         <p class="card-text">@Model.DescricaoCurta</p>
     </div>
-
+    @*incluir botao*@
 </div>

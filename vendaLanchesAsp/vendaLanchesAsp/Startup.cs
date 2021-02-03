@@ -37,8 +37,8 @@ namespace vendaLanchesAsp
 
             if (Configuration["BancoDados"].Equals("SqlServer"))
             {
-                services.AddDbContext<AppDbContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
+            //    services.AddDbContext<AppDbContext>(options =>
+              // options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
             }
             else
             {
@@ -92,6 +92,11 @@ namespace vendaLanchesAsp
             app.UseSession();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                   name: "categoriaFiltro",
+                   pattern: "lanches/{action}/{categoria?}",
+                   defaults: new { Controller = "Lanches", action = "List" });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
