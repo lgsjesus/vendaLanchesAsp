@@ -77,14 +77,19 @@ body {
 
 .box-cards{
   /*  height: 34rem;*/
-    margin: 15px;
-   /* width: 30rem;*/   
+    margin: 0 5px;
+    width: 30rem;     
+  /* align-items: center;*/
 }
 
-.box-cards img{
+img {
     /*height: 100px;*/
     height: 300px;
-    width: 100%;
+    width: 60%;
+    align-items: center;
+}
+.box-img {
+   align-items: center;
 }
 
 .shooping-box {

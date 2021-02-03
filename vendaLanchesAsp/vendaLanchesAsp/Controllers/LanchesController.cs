@@ -51,6 +51,18 @@ namespace vendaLanchesAsp.Controllers
             model.Categoria = _categoria;
             return View(model);
         }
+        public IActionResult Details(int lancheId)
+        {
+
+            var lanche = _lanche.Lanches.FirstOrDefault();
+            if (lanche != null)
+            {
+                return View(lanche);
+            }
+            else{
+                return View("Error");
+            }
+        }
 
     }
 }
