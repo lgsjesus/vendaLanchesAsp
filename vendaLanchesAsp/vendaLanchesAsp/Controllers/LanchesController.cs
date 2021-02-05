@@ -63,6 +63,22 @@ namespace vendaLanchesAsp.Controllers
                 return View("Error");
             }
         }
+        public ViewResult Search(string searchString)
+        {
+            string _searchString = searchString;
+            IEnumerable<Lanche> lanches;
+            string currentCategory = string.Empty;
 
+            if (string.IsNullOrEmpty(_searchString))
+            {
+                lanches = _lanche.Lanches.OrderBy(p => p.LancheId);
+            }
+            else
+            {
+                lanches = _lanche.Lanches.Where(p => p.Nome.ToLower().Contains(_searchString.ToLower()));
+            }
+
+            return View("~/Views/Lanche/List.cshtml", new LancheViewModel { Lanches = lanches, Categoria = "Todos os lanches" });
+        }
     }
 }

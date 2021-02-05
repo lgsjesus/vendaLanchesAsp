@@ -22,6 +22,7 @@
     <None Include="wwwroot\Img\carousel11.jpg" />
     <None Include="wwwroot\Img\carousel12.jpg" />
     <None Include="wwwroot\Img\carousel13.jpg" />
+    <None Include="wwwroot\Img\faleconosco1.jpg" />
   </ItemGroup>
 
 </Project>

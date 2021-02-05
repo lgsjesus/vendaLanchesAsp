@@ -49,6 +49,8 @@ namespace vendaLanchesAsp
             //Transient o objeto vai ser criado toda x que for requisitado
             services.AddTransient<ICategorias, CategoriaRepository>();
             services.AddTransient<ILanches, LancheRepository>();
+            services.AddTransient<IPedidoRepository, PedidoRepository>();
+
             //Singleton todos os controllers recebem a mesma instancia
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -92,6 +94,11 @@ namespace vendaLanchesAsp
             app.UseSession();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                   name: "categoriaFiltro",
+                   pattern: "lanches/{action}/{categoria?}",
+                   defaults: new { Controller = "Lanches", action = "List" });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
