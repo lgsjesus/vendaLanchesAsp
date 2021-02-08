@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,6 +47,14 @@ namespace vendaLanchesAsp
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             }
 
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                 .AddEntityFrameworkStores<AppDbContext>()
+                 .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options => options.AccessDeniedPath = "/Home/AccessDenied");
+
+
             //Transient o objeto vai ser criado toda x que for requisitado
             services.AddTransient<ICategorias, CategoriaRepository>();
             services.AddTransient<ILanches, LancheRepository>();
@@ -53,6 +62,8 @@ namespace vendaLanchesAsp
 
             //Singleton todos os controllers recebem a mesma instancia
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            
 
             //quer dizer que cada requisição tem sua instancia, se 2 pessoas pedem o carrinho
             // ao mesmo tempo cada uma pega a sua
@@ -89,11 +100,19 @@ namespace vendaLanchesAsp
 
             app.UseRouting();
 
-            app.UseAuthorization();
+     //       app.UseAuthorization();
 
             app.UseSession();
+            
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                   name: "AdminArea",
+                   pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                    name: "categoriaFiltro",
                    pattern: "lanches/{action}/{categoria?}",

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +20,14 @@ namespace vendaLanchesAsp.Controllers
             _carrinhoCompra = carrinhoCompra;
         }
 
-      //  [Authorize]
+    //    [Authorize]
         public IActionResult Checkout()
         {
             return View();
         }
 
         [HttpPost]
-    //    [Authorize]
+        [Authorize]
         public IActionResult Checkout(Pedido pedido)
         {
             var items = _carrinhoCompra.GetCarrinhoCompraItens();

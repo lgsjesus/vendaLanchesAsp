@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace vendaLanchesAsp.Controllers
 
             return View(carrinhoCompraView);
         }
+        [Authorize]
         public RedirectToActionResult AdicionarItemAoCarrinho(int lancheID)
         {
             var lancheSelecionado = _lanchesRepository.Lanches.Where(c => c.LancheId == lancheID).FirstOrDefault();
@@ -39,6 +41,7 @@ namespace vendaLanchesAsp.Controllers
 
             return RedirectToAction("Index");
         }
+        [Authorize]
         public RedirectToActionResult RemoverItemDoCarrinho(int lancheID)
         {
             var lancheSelecionado = _lanchesRepository.Lanches.

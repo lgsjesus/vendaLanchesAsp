@@ -36,5 +36,10 @@ namespace vendaLanchesAsp.Controllers
             return View();
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
     }
 }
