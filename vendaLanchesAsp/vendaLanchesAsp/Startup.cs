@@ -8,11 +8,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using ReflectionIT.Mvc.Paging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using vendaLanchesAsp.Areas.Admin.Servicos;
 using vendaLanchesAsp.Context;
 using vendaLanchesAsp.Models;
 using vendaLanchesAsp.Repositories;
@@ -63,13 +65,21 @@ namespace vendaLanchesAsp
             //Singleton todos os controllers recebem a mesma instancia
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            
 
-            //quer dizer que cada requisição tem sua instancia, se 2 pessoas pedem o carrinho
-            // ao mesmo tempo cada uma pega a sua
+            services.AddScoped<RelatorioVendasService>();
+
+            //cria um objeto Scoped, ou seja um objeto que esta associado a requisição
+            //isso significa que se duas pessoas solicitarem o objeto CarrinhoCompra ao  mesmo tempo
+            //elas vão obter instâncias diferentes
             services.AddScoped(cp => CarrinhoCompra.GetCarrinho(cp));
+
             services.AddControllersWithViews();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddPaging(options => {
+                options.ViewName = "Bootstrap4";
+                options.PageParameterName = "pageindex";
+            });
 
             services.AddSession();
             services.AddMemoryCache();

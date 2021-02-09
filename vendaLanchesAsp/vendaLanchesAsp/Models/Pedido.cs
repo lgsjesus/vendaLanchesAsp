@@ -62,6 +62,11 @@ namespace vendaLanchesAsp.Models
         [ScaffoldColumn(false)]
         public decimal PedidoTotal { get; set; }
 
+        [BindNever]
+        [ScaffoldColumn(false)]
+        [Display(Name = "Itens no Pedido")]
+        public int TotalItensPedido { get; set; }
+
         //[BindNever]
         //[ScaffoldColumn(false)]
         [Display(Name = "Data/Hora de Recebimento do Pedido")]

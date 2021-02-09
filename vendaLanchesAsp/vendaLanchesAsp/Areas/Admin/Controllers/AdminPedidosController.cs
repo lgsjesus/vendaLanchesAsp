@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using ReflectionIT.Mvc.Paging;
 using vendaLanchesAsp.Context;
 using vendaLanchesAsp.Models;
+using vendaLanchesAsp.ViewModels;
 
 namespace vendaLanchesAsp.Areas.Admin.Controllers
 {
@@ -23,9 +26,47 @@ namespace vendaLanchesAsp.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdminPedidos
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await _context.Pedidos.ToListAsync());
+        //}
+        public async Task<IActionResult> Index(string filter, int pageindex = 1, string sort = "Nome")
         {
-            return View(await _context.Pedidos.ToListAsync());
+            var resultado = _context.Pedidos.AsNoTracking()
+                           .AsQueryable();
+
+
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                resultado = resultado.Where(p => p.Nome.Contains(filter));
+            }
+
+            var model = await PagingList.CreateAsync(resultado, 5, pageindex, sort, "Nome");
+
+            model.RouteValue = new RouteValueDictionary { { "filter", filter } };
+
+            return View(model);
+        }
+        public IActionResult PedidoLanches(int? id)
+        {
+            var pedido = _context.Pedidos
+                          .Include(pd => pd.PedidoItens)
+                          .ThenInclude(l => l.Lanche)
+                          .FirstOrDefault(p => p.PedidoId == id);
+
+            if (pedido == null)
+            {
+                Response.StatusCode = 404;
+                return View("PedidoNotFound", id.Value);
+            }
+
+            PedidoLancheViewModel pedidoLanches = new PedidoLancheViewModel()
+            {
+                Pedido = pedido,
+                PedidoDetalhes = pedido.PedidoItens
+            };
+
+            return View(pedidoLanches);
         }
 
         // GET: Admin/AdminPedidos/Details/5
